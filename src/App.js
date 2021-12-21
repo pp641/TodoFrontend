@@ -1,11 +1,13 @@
-import ComponentOne from "./part-one/Components/componentOne";
-
+import SignIn from "./auth/Screens/login";
+import SignUp from "./auth/Screens/register";
 function App() {
   return (
     <div className="App">
-      <ComponentOne />
+      <SignIn />
+      <SignUp />
     </div>
   );
 }
 
 export default App;
+// <ComponentOne />
