@@ -1,13 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-// import reportWebVitals from "./reportWebVitals";
 import store from "./store/CombineReducer";
 import { Provider } from "react-redux";
-
+import NewApp from "./routes";
+import { BrowserRouter } from "react-router-dom";
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <NewApp />
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );

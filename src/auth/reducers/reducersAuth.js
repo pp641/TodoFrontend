@@ -2,6 +2,9 @@ const AuthReducers = (
   state = {
     createAccount: {},
     createAccountFailed: {},
+    login: {},
+    loginFailed: {},
+    isLoggedIn: false,
   },
   action
 ) => {
@@ -16,6 +19,24 @@ const AuthReducers = (
       return {
         ...state,
         createAccountFailed: action.payload,
+      };
+    }
+    case "LOGIN_SUCCESS": {
+      return {
+        ...state,
+        login: action.payload,
+      };
+    }
+    case "LOGIN_FAILED": {
+      return {
+        ...state,
+        loginFailed: action.payload,
+      };
+    }
+    case "IS_LOGGED_IN": {
+      return {
+        state,
+        isLoggedIn: action.payload,
       };
     }
     default: {

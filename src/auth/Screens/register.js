@@ -22,8 +22,8 @@ export default function SignUp() {
   const dispatch = useDispatch();
 
   const [formValues, setFormValues] = React.useState({});
+
   const handleChange = (event) => {
-    console.log(formValues);
     event.preventDefault();
     setFormValues((formState) => ({
       ...formState,
@@ -126,8 +126,16 @@ export default function SignUp() {
             <Button
               type="submit"
               fullWidth
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 dispatch(createNewAccount(formValues));
+                setFormValues({
+                  firstName: "",
+                  lastName: "",
+                  email: "",
+                  password: "",
+                  confirmPassword: "",
+                });
               }}
               variant="contained"
               sx={{ mt: 3, mb: 2 }}

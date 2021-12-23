@@ -11,18 +11,26 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useSelector, useDispatch } from "react-redux";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { isLoggedIn, loginIntoAccount } from "../actions/actionAuth";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  let navigate = useNavigate();
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const [formValues, setFormValues] = React.useState({});
+
+  const handleChange = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    setFormValues((formState) => ({
+      ...formState,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   return (
@@ -43,17 +51,14 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
+              onChange={handleChange}
+              value={formValues.email}
               label="Email Address"
               name="email"
               autoComplete="email"
@@ -63,6 +68,8 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
+              value={formValues.password}
+              onChange={handleChange}
               name="password"
               label="Password"
               type="password"
@@ -78,9 +85,20 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(loginIntoAccount(formValues));
+                dispatch(isLoggedIn(localStorage.getItem("token")));
+                navigate("/about");
+                setFormValues({
+                  email: "",
+                  password: "",
+                });
+              }}
             >
               Sign In
             </Button>
+            {console.log(formValues)}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">

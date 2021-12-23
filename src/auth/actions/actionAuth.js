@@ -1,4 +1,6 @@
 import axios from "axios";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
+import { ActionType } from "redux-promise-middleware";
 
 export const createNewAccount = (data) => async (dispatch) => {
   await axios
@@ -16,4 +18,30 @@ export const createNewAccount = (data) => async (dispatch) => {
         payload: error,
       });
     });
+};
+
+export const loginIntoAccount = (data) => async (dispatch) => {
+  await axios
+    .post("/api/users/login", { data: data })
+    .then((response) => {
+      console.log(response.data);
+      localStorage.setItem("token", response.data.token);
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: response.data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: "LOGIN_FAILED",
+        payload: error,
+      });
+    });
+};
+
+export const isLoggedIn = (data) => async (dispatch) => {
+  return dispatch({
+    type: "IS_LOGGED_IN",
+    payload: data ? true : false,
+  });
 };
