@@ -1,3 +1,5 @@
+import { setUpdatedValuesForUpdation } from "../actions/collaboratorActions";
+
 const collaboratorReducers = (
   state = {
     getAllUsers: [],
@@ -5,6 +7,8 @@ const collaboratorReducers = (
     getSelectedValuesFromAutoComplete: [],
     recordCreationDetails: {},
     getAllCollaborations: [],
+    populateValuesForUpdation: [],
+    updateValuesForUpdation: [],
   },
   action
 ) => {
@@ -39,6 +43,17 @@ const collaboratorReducers = (
       return {
         ...state,
         getAllCollaborations: action.payload,
+      };
+    }
+    case "POPULATE_VALUES_FOR_UPDATION": {
+      return {
+        ...state,
+        populateValuesForUpdation: action.payload,
+      };
+    }
+    case "UPDATE_VALUES_FOR_UPDATION": {
+      return {
+        updateValuesForUpdation: action.payload,
       };
     }
 

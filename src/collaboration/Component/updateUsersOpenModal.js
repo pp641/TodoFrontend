@@ -1,60 +1,72 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { useSelector, useDispatch } from "react-redux";
-import { getAutoCompleteData } from "../actions/collaboratorActions";
-
+import {
+  getAllUsers,
+  getAutoCompleteData,
+  setUpdatedValuesForUpdation,
+} from "../actions/collaboratorActions";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function CheckboxesTags() {
   const dispatch = useDispatch();
-  const getUserRecords = useSelector((state) => state.collaboratorReducers);
-  const [userValues, setUserValues] = React.useState(
-    getUserRecords.getAllUsers
+  const records = useSelector((state) => state.collaboratorReducers);
+  const [newValuesForUpdation, setNewValuesForUpdation] = useState(
+    records.populateValuesForUpdation?.AllMembers
   );
+  const [currentValues, setCurrentValues] = useState(
+    records.populateValuesForUpdation?.AllMembers
+  );
+  React.useEffect(() => {
+    dispatch(getAllUsers());
+  }, []);
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const isValuePresentInCurrentArray = (array, id) => {
+    let index = array.findIndex((data) => data._id === id);
+    return index !== -1;
+  };
 
   return (
     <Autocomplete
       multiple
       id="checkboxes-tags-demo"
-      options={getUserRecords.getAllUsers}
-      defaultValue={(e) => {
-        console.log("this is def ", e);
-      }}
+      options={records?.getAllUsers}
       disableCloseOnSelect
-      autoComplete={true}
+      defaultValue={currentValues}
       onChange={(event, values) => {
-        dispatch(getAutoCompleteData(values));
+        console.log("vall", values);
+        setNewValuesForUpdation(values);
+        // dispatch(setUpdatedValuesForUpdation(values));
       }}
-      getOptionLabel={(option) => option._id}
+      getOptionLabel={(option) => option?._id}
       renderOption={(props, option, { selected }) => (
         <li {...props}>
+          {console.log(
+            isValuePresentInCurrentArray(newValuesForUpdation, props.id),
+            "okfinee"
+          )}
           <Checkbox
             icon={icon}
             checkedIcon={checkedIcon}
             style={{ marginRight: 8 }}
-            checked={selected}
+            checked={
+              isValuePresentInCurrentArray(newValuesForUpdation, props.key)
+                ? true
+                : selected
+            }
           />
           {option.email} : {option.name}
         </li>
       )}
       style={{ width: 500 }}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Checkboxes"
-          onChange={(e) => {
-            console.log(e.target.value);
-          }}
-          placeholder="Favorites"
-        />
+        <TextField {...params} label="Checkboxes" placeholder="Favorites" />
       )}
     />
   );

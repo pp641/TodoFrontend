@@ -35,9 +35,6 @@ export const getAllCollaborators = () => async (dispatch) => {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token"),
       },
-      params: {
-        id: localStorage.getItem("userId"),
-      },
     })
     .then((response) => {
       console.log(response.data);
@@ -193,4 +190,18 @@ export const createRecord = (data) => async (dispatch) => {
         payload: error,
       });
     });
+};
+
+export const updateValuesforUpdation = (data) => async (dispatch) => {
+  return dispatch({
+    type: "POPULATE_VALUES_FOR_UPDATION",
+    payload: data,
+  });
+};
+
+export const setUpdatedValuesForUpdation = (data) => async (dispatch) => {
+  return dispatch({
+    type: "UPDATE_VALUES_FOR_UPDATION",
+    payload: data,
+  });
 };
