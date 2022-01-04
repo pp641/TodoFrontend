@@ -24,8 +24,9 @@ export const loginIntoAccount = (data) => async (dispatch) => {
   await axios
     .post("/api/users/login", { data: data })
     .then((response) => {
-      console.log(response.data);
+      console.log("this is  resp", response.data);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.payload.id);
       dispatch({
         type: "LOGIN_SUCCESS",
         payload: response.data,

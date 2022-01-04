@@ -1,16 +1,16 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ComponentOne from "../../task/Components/componentOne";
 import { isLoggedIn } from "../actions/actionAuth";
 const ProtectedScreen = () => {
   let localStorageToken = localStorage.getItem("token");
   const allstates = useSelector((state) => state.AuthReducers);
-  //  allstates.isLoggedIn;
   const dispatch = useDispatch();
-  const [token, setToken] = React.useState("");
+  const [token, setToken] = React.useState(localStorage.getItem("token"));
   React.useEffect(() => {
+    setTobeShow(localStorage.getItem("token"));
     dispatch(isLoggedIn(localStorage.getItem("token")));
-    setTobeShow(allstates.isLoggedIn);
-  }, [allstates]);
+  }, []);
   const [tobeShow, setTobeShow] = React.useState("");
   const ShowSomething = () => {
     return (
@@ -28,7 +28,7 @@ const ProtectedScreen = () => {
     );
   };
 
-  return <div> {tobeShow ? <ShowSomething /> : <ShowNothing />}</div>;
+  return <div> {token ? <ComponentOne /> : <ShowNothing />}</div>;
 };
 
 export default ProtectedScreen;

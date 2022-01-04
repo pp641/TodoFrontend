@@ -89,7 +89,7 @@ export default function SignIn() {
                 e.preventDefault();
                 dispatch(loginIntoAccount(formValues));
                 dispatch(isLoggedIn(localStorage.getItem("token")));
-                navigate("/about");
+                navigate("/protected");
                 setFormValues({
                   email: "",
                   password: "",

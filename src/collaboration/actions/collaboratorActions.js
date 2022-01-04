@@ -205,3 +205,120 @@ export const setUpdatedValuesForUpdation = (data) => async (dispatch) => {
     payload: data,
   });
 };
+
+export const setTaskForCollaboration = (data) => async (dispatch) => {
+  return dispatch({
+    type: "SET_TASK_FOR_COLLABORATION",
+    payload: data,
+  });
+};
+
+export const setDataCollaboration = (data, token) => async (dispatch) => {
+  console.log("setDatasss", data, token);
+  await axios
+    .post(
+      "/api/postTodoCollaboration",
+      {
+        data: data,
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
+    .then((response) => {
+      console.log(response.data);
+      dispatch({
+        type: "SET_DATA_COLLABORATION",
+        payload: response.data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: "SET_DATA_COLLABORATION_FAILED",
+        payload: error,
+      });
+    });
+};
+
+export const getAllCollaborationData = () => async (dispatch) => {
+  await axios
+    .get("/api/getAllCollaborationTodo", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+    })
+    .then((response) => {
+      dispatch({
+        type: "GET_ALL_COLLABORATION_TODO",
+        payload: response.data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: "GET_ALL_COLLABORATION_TODO_FAILED",
+        payload: error,
+      });
+    });
+};
+
+export const deleteOneRecordCollaboration = (data2) => async (dispatch) => {
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: localStorage.getItem("token"),
+  };
+  const data = {
+    data: `${data2}`,
+  };
+  await axios
+    .delete("/api/deleteTodo", {
+      headers,
+      data,
+    })
+    .then((response) => {
+      console.log("response ::: ", response);
+      dispatch({
+        type: "DELETE_RECORD_COLLABORATION",
+        payload: response.data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: "DELETE_RECORD_COLLABORATION_FAILED",
+        payload: error,
+      });
+    });
+};
+
+export const updateRecordCollaboration = (id, data) => async (dispatch) => {
+  await axios
+    .patch(
+      "/api/updateCollaborationRecord",
+      { id: id, data: data },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    )
+    .then((response) => {
+      dispatch({
+        type: "UPDATE_COLLABORATION_RECORD",
+        payload: response.data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: "UPDATE_COLLABORATION_RECORD_FAILED",
+        payload: error,
+      });
+    });
+};

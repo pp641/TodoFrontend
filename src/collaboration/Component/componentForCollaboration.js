@@ -4,14 +4,14 @@ import {
   deleteOneRecord,
   getAllData,
   updateRecord,
-} from "../actions/actionOne";
+} from "../../task/actions/actionOne";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { setData } from "../actions/actionOne";
+import { setData } from "../../task/actions/actionOne";
 import Backdrop from "@mui/material/Backdrop";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
@@ -70,7 +70,7 @@ const ComponentOne = () => {
   const dispatch = useDispatch();
   const [updatedValue, setUpdatedValue] = React.useState("");
   const records = useSelector((state) => state);
-  const [rand , setRand] = React.useState(0);
+  const [rand, setRand] = React.useState(0);
   const [currentObjectState, setCurrentObjectState] = React.useState("");
   const [currentId, setCurrentId] = React.useState("");
   const [currentValue, setCurrentValue] = React.useState("");
@@ -80,9 +80,9 @@ const ComponentOne = () => {
   React.useEffect(() => {
     dispatch(getAllData());
     setAllRecords(records.TaskReducers.allData);
-    setRand(1)
-    console.log(records)
-  },[  records.TaskReducers.allData.length, datas  ]);
+    setRand(1);
+    console.log(records);
+  }, [records.TaskReducers.allData.length, datas]);
 
   return (
     <div>

@@ -15,7 +15,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import UpdateUsersOpenModal from "./updateUsersOpenModal";
 import { updateValuesforUpdation } from "../actions/collaboratorActions";
-import ProtectedScreen from "../../auth/Screens/protectedScreen";
+import ComponentOne from "./componentForCollaboration";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -81,7 +82,7 @@ const AllCollaborators = () => {
             />
           </ListItem>
           <UpdateUsersOpenModal />
-          <ProtectedScreen />
+          <ComponentOne />
         </List>
       </Dialog>{" "}
       okvisible {console.log(collaboratedRecords)}

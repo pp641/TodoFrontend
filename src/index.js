@@ -4,12 +4,14 @@ import App from "./App";
 import store from "./store/CombineReducer";
 import { Provider } from "react-redux";
 import NewApp from "./routes";
+import HeadComponent from "./collaboration/Component/headComponent";
 import { BrowserRouter } from "react-router-dom";
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <NewApp />
     </BrowserRouter>
+    <HeadComponent />
   </Provider>,
   document.getElementById("root")
 );

@@ -70,7 +70,7 @@ const ComponentOne = () => {
   const dispatch = useDispatch();
   const [updatedValue, setUpdatedValue] = React.useState("");
   const records = useSelector((state) => state);
-  const [rand , setRand] = React.useState(0);
+  const [rand, setRand] = React.useState(0);
   const [currentObjectState, setCurrentObjectState] = React.useState("");
   const [currentId, setCurrentId] = React.useState("");
   const [currentValue, setCurrentValue] = React.useState("");
@@ -80,9 +80,9 @@ const ComponentOne = () => {
   React.useEffect(() => {
     dispatch(getAllData());
     setAllRecords(records.TaskReducers.allData);
-    setRand(1)
-    console.log(records)
-  },[  records.TaskReducers.allData.length, datas  ]);
+    setRand(1);
+    console.log(records);
+  }, [records.TaskReducers.allData.length, datas]);
 
   return (
     <div>

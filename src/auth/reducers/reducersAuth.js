@@ -5,6 +5,7 @@ const AuthReducers = (
     login: {},
     loginFailed: {},
     isLoggedIn: false,
+    currentUserDetails : {}
   },
   action
 ) => {

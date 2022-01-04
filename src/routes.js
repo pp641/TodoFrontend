@@ -13,18 +13,20 @@ import Logout from "./auth/Screens/logout";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoggedIn } from "./auth/actions/actionAuth";
 import ProtectedScreen from "./auth/Screens/protectedScreen";
+import Collaborator from "./collaboration/Component/headComponent";
+import AllCollaborator from "./collaboration/Component/seeAllCollaborators";
 export default function NewApp() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [token, setToken] = React.useState("");
   const AuthReduxStates = useSelector((state) => state.AuthReducers);
   React.useEffect(() => {
-    dispatch(isLoggedIn(localStorage.getItem("token")));
+    // dispatch(isLoggedIn(localStorage.getItem("token")));
   }, [AuthReduxStates]);
 
   const logoutFunctionality = () => {
     localStorage.clear();
-    dispatch(isLoggedIn(localStorage.getItem("token")));
+    // dispatch(isLoggedIn(localStorage.getItem("token")));
     navigate("/about");
   };
 
@@ -34,7 +36,13 @@ export default function NewApp() {
       <button
         onClick={logoutFunctionality}
         style={{
-          display: `${AuthReduxStates.isLoggedIn !== true ? "none" : "inline"}`,
+          display: `${!localStorage.getItem("token") ? "none" : "inline"}`,
+          color: "blue",
+          borderRadius: "10px",
+          background: "green",
+          fontSize: "100%",
+          width: "150px",
+          height: "50px",
         }}
       >
         {" "}
@@ -43,7 +51,7 @@ export default function NewApp() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/about" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NoMatch />} />
           <Route path="/protected" element={<ProtectedScreen />} />
@@ -61,23 +69,34 @@ function Layout() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
-            <Link to="/signin">Home</Link>
+
+          <li
+            style={{
+              display: !localStorage.getItem("token") ? "block" : "none",
+            }}
+          >
+            <Link to="/signin">Signin</Link>
           </li>
-          <li>
-            <Link to="/about">About</Link>
+          <li
+            style={{
+              display: !localStorage.getItem("token") ? "block" : "none",
+            }}
+          >
+            <Link to="/signup">Signup</Link>
           </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
+          <li
+            style={{
+              display: localStorage.getItem("token") ? "block" : "none",
+            }}
+          >
+            <Link to="/dashboard">User DashBoard</Link>
           </li>
-          <li>
+          <li
+            style={{
+              display: localStorage.getItem("token") ? "block" : "none",
+            }}
+          >
             <Link to="/protected">Protected</Link>
-          </li>
-          <li>
-            <Link to="/logout">Logout</Link>
-          </li>
-          <li>
-            <Link to="/*">Nothing Here</Link>
           </li>
         </ul>
       </nav>
@@ -90,7 +109,7 @@ function Layout() {
 function Home() {
   return (
     <div>
-      <h2>Home</h2>
+      <h2>This is our Home</h2>
     </div>
   );
 }

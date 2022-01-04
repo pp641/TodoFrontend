@@ -1,19 +1,26 @@
 import axios from "axios";
 
-export const setData = (data) => async (dispatch) => {
-  console.log("setData", data);
+export const setData = (data, token) => async (dispatch) => {
+  console.log("setDatasss", data, token);
   await axios
-    .post("/api/postTodo", { data: data })
+    .post("/api/postTodo",{
+      data: data} , {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+    })
     .then((response) => {
       console.log(response.data);
       dispatch({
-        type: "SET_USERS",
+        type: "SET_DATA",
         payload: response.data,
       });
     })
     .catch((error) => {
       dispatch({
-        type: "SET_USERS_FAILED",
+        type: "SET_DATA_FAILED",
         payload: error,
       });
     });
@@ -21,7 +28,13 @@ export const setData = (data) => async (dispatch) => {
 
 export const getAllData = () => async (dispatch) => {
   await axios
-    .get("/api/getTodoAll")
+    .get("/api/getTodoAll", {
+      headers: {
+      Accept : 'application/json',
+      'Content-Type' : 'application/json',
+      Authorization : localStorage.getItem("token") 
+    }
+  })
     .then((response) => {
       dispatch({
         type: "GET_ALL_USERS",
@@ -38,7 +51,14 @@ export const getAllData = () => async (dispatch) => {
 
 export const getUserById = (data) => async (dispatch) => {
   await axios
-    .get("/api/getTodo", { data: data })
+    .get("/api/getTodo", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+      data: data,
+    })
     .then((response) => {
       dispatch({
         type: "GET_USER_BY_ID",
@@ -53,15 +73,21 @@ export const getUserById = (data) => async (dispatch) => {
     });
 };
 
-export const deleteOneRecord = (data) => async (dispatch) => {
+export const deleteOneRecord = (data2) => async (dispatch) => {
+
+  const headers =  {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: localStorage.getItem("token")
+
+  }
+  const data  = {
+    data : `${data2}`
+  }
   await axios
     .delete("/api/deleteTodo", {
-      headers: {
-        "Content-type": "application/json",
-      },
-
-      body: data,
-    })
+          headers,data}
+    )
     .then((response) => {
       console.log("response ::: ", response);
       dispatch({
@@ -79,7 +105,13 @@ export const deleteOneRecord = (data) => async (dispatch) => {
 
 export const updateRecord = (id, data) => async (dispatch) => {
   await axios
-    .patch("/api/updateTodo", { id: id, data: data })
+    .patch("/api/updateTodo",{id : id , data: data}, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      }
+    })
     .then((response) => {
       dispatch({
         type: "UPDATE_RECORD",

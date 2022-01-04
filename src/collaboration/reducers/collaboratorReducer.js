@@ -1,5 +1,3 @@
-import { setUpdatedValuesForUpdation } from "../actions/collaboratorActions";
-
 const collaboratorReducers = (
   state = {
     getAllUsers: [],
@@ -9,6 +7,7 @@ const collaboratorReducers = (
     getAllCollaborations: [],
     populateValuesForUpdation: [],
     updateValuesForUpdation: [],
+    setTaskForCollaboration: [],
   },
   action
 ) => {
@@ -54,6 +53,11 @@ const collaboratorReducers = (
     case "UPDATE_VALUES_FOR_UPDATION": {
       return {
         updateValuesForUpdation: action.payload,
+      };
+    }
+    case "SET_TASK_FOR_COLLABORATION": {
+      return {
+        setTaskForCollaboration: action.payload,
       };
     }
 
